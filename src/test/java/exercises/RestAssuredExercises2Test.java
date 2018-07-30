@@ -100,15 +100,21 @@ public class RestAssuredExercises2Test {
 	 * and verify the number of pit stops made
 	 ******************************************************/
 	
-	@Test
-	public void checkNumberOfPitstopsForMaxVerstappenIn2015() {
+	@ParameterizedTest(name = "{index} => race={0}, pit={1}")
+	@CsvSource({
+			"1, 1",
+			"2, 3",
+			"3, 2",
+			"4, 2"
+	})
+	public void checkNumberOfPitstopsForMaxVerstappenIn2015(int race, int pit) {
 		
 		given().
 			spec(requestSpec).
-				param("id", 1, 2, 3, 4).
+				pathParam("race", race).
 		when().
-				get("/2015/{id}/drivers/max_verstappen/pitstops.json").
+				get("/2015/{race}/drivers/max_verstappen/pitstops.json").
 		then().
-				body("MRData.RaceTable.Races.PitStops.size()", is(new Integer[]{1, 3, 2, 2}));
+				body("MRData.RaceTable.Races[0].PitStops.size()", is(pit));
 	}
 }
