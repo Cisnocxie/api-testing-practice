@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
@@ -55,6 +56,24 @@ public class RestAssuredExercises2Test {
 	 ******************************************************/
 
 	//todo
+	@ParameterizedTest(name = "{index} => race={0}, pit={1}")
+	@CsvSource({
+			"1, 1",
+			"2, 3",
+			"3, 2",
+			"4, 2"
+	})
+	public void findPitstopsNum(int race, int pit) {
+
+		given().
+				spec(requestSpec).
+				pathParam("race", race).
+				when().
+				get("/2015/{race}/drivers/max_verstappen/pitstops.json").
+				then().
+				assertThat().
+				body("MRData.RaceTable.Races[0].PitStops.size()", equalTo(pit));
+	}
 
 	/*******************************************************
 	 * Request data for a specific circuit (for Monza this 
