@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 
@@ -104,7 +106,8 @@ public class RestAssuredExercises1Test {
                 when().
                 get("/2014/circuits.json").
                 then().
-                body("");
+                assertThat().
+                body("MRData.CircuitTable.Circuits.circuitId", hasItems("silverstone"));
     }
 
     /***********************************************
