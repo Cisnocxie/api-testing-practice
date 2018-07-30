@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -123,7 +124,8 @@ public class RestAssuredExercises1Test {
         given().
                 spec(requestSpec).
                 when().
-
-                then();
+                get("/2014/circuits.json").
+                then().
+                body("MRData.CircuitTable.Circuits.circuitId", not(hasItems("nurburgring")));
     }
 }
