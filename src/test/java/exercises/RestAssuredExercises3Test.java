@@ -109,7 +109,10 @@ public class RestAssuredExercises3Test {
 
         given().
                 spec(requestSpec).
+                pathParam("driverId", ninthDriverId).
                 when().
-                then();
+                get("/drivers/{driverId}.json").
+                then().
+                body("MRData.DriverTable.Drivers[0].nationality", is("German"));
     }
 }
