@@ -85,11 +85,13 @@ public class RestAssuredExercises5Test {
 	
 	@Test
 	public void checkFourRecordsHaveBeenSetByCarsFromEitherItalyOrGermany() {
-		
+
 		given().
-			spec(requestSpec).
-		when().
-		then();
+				spec(requestSpec).
+				when().
+				get("/xml/speedrecords").
+				then()
+				.body("speedRecords.car.findAll{it.@country == 'Germany' || it.@country == 'Italy'}.size()", equalTo(4));
 	}
 	
 	/*******************************************************
