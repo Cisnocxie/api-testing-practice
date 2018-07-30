@@ -6,6 +6,7 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
@@ -34,16 +35,16 @@ public class RestAssuredExercises2Test {
 	 ******************************************************/
 
 	//todo
-	@Test
-	public void findCircuitInWhichContry() {
+	@ParameterizedTest(name = "{index} => circuit={0}")
+	@CsvSource({"monza"})
+	public void findCircuitInWhichContry(String circuit) {
 		given()
 				.spec(requestSpec)
+				.pathParam("circuit", circuit)
 				.when()
-				.get("/2014/circuits.json")
+				.get("/circuits/{circuit}.json")
 				.then()
-				.contentType(ContentType.JSON)
-				.extract()
-				.response();
+				.body("MRData.CircuitTable.Circuits.Location.country", hasItem("Italy"));
 	}
 
 	/*******************************************************
